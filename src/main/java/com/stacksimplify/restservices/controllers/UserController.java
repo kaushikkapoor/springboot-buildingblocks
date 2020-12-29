@@ -2,10 +2,14 @@ package com.stacksimplify.restservices.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +26,7 @@ import com.stacksimplify.restservices.exceptions.UserNotFoundException;
 import com.stacksimplify.restservices.services.UserService;
 
 @RestController
+@Validated
 public class UserController {
 
 	@Autowired
@@ -33,7 +38,7 @@ public class UserController {
 	}
 
 	@PostMapping("/createuser")
-	public ResponseEntity<Void> createUser(@RequestBody User user, UriComponentsBuilder builders) {
+	public ResponseEntity<Void> createUser(@Valid @RequestBody User user, UriComponentsBuilder builders) {
 		try {
 			service.createUser(user);
 			HttpHeaders headers = new HttpHeaders();
@@ -45,7 +50,7 @@ public class UserController {
 	}
 
 	@GetMapping("user/{id}")
-	public User getUserById(@PathVariable("id") Long id) {
+	public User getUserById(@PathVariable("id") @Min(1) Long id) {
 		try {
 			return service.getUserById(id);
 		} catch (UserNotFoundException ex) {

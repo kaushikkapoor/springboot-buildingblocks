@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.stacksimplify.restservices.Entities.User;
 import com.stacksimplify.restservices.exceptions.UserExistsException;
+import com.stacksimplify.restservices.exceptions.UserNameNotFoundException;
 import com.stacksimplify.restservices.exceptions.UserNotFoundException;
 import com.stacksimplify.restservices.repositories.UserRepository;
 
@@ -55,11 +56,11 @@ public class UserService {
 				"Entity not found in User Repository, provide the correct id");
 	}
 
-	public User getUserByUsername(String username) throws Exception {
+	public User getUserByUsername(String username) throws UserNameNotFoundException {
 		Optional<User> opt = repository.findByUsername(username);
 		if (opt.isPresent())
 			return opt.get();
-		throw new Exception("Not User Found");
+		throw new UserNameNotFoundException("Not User Found");
 	}
 
 }
