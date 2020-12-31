@@ -1,6 +1,7 @@
 package com.stacksimplify.restservices.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -42,7 +43,7 @@ public class UserController {
 		try {
 			service.createUser(user);
 			HttpHeaders headers = new HttpHeaders();
-			headers.setLocation(builders.path("users/{id}").buildAndExpand(user.getId()).toUri());
+			headers.setLocation(builders.path("users/{id}").buildAndExpand(user.getUserId()).toUri());
 			return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 		} catch (UserExistsException ex) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage());
@@ -50,7 +51,7 @@ public class UserController {
 	}
 
 	@GetMapping("user/{id}")
-	public User getUserById(@PathVariable("id") @Min(1) Long id) {
+	public Optional<User> getUserById(@PathVariable("id") @Min(1) Long id) {
 		try {
 			return service.getUserById(id);
 		} catch (UserNotFoundException ex) {

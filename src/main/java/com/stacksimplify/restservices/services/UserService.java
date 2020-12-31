@@ -31,10 +31,10 @@ public class UserService {
 		return repository.save(user);
 	}
 
-	public User getUserById(Long id) throws UserNotFoundException {
+	public Optional<User> getUserById(Long id) throws UserNotFoundException {
 		Optional<User> opt = repository.findById(id);
 		if (opt.isPresent()) {
-			return opt.get();
+			return opt;
 		}
 		throw new UserNotFoundException("Entity not found in User Repository");
 	}
@@ -42,7 +42,7 @@ public class UserService {
 	public User updateUserById(Long id, User user) throws UserNotFoundException {
 		Optional<User> opt = repository.findById(id);
 		if (opt.isPresent()) {
-			user.setId(id);
+			user.setUserId(id);
 			return repository.save(user);
 		}
 		throw new UserNotFoundException("Entity not found in User Repository, provide the correct id");
