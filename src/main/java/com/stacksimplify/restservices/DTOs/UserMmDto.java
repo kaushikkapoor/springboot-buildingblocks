@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.stacksimplify.restservices.Entities.Order;
 
-public class UserDto {
+public class UserMmDto {
 
 	Long userId;
 	String firstname;

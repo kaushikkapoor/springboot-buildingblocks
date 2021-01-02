@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.stacksimplify.restservices.DTOs.UserDto;
+import com.stacksimplify.restservices.DTOs.UserMmDto;
 import com.stacksimplify.restservices.Entities.User;
 import com.stacksimplify.restservices.exceptions.UserNotFoundException;
 import com.stacksimplify.restservices.services.UserService;
@@ -29,11 +29,11 @@ public class UserModelMapperController {
 	ModelMapper mapper;
 
 	@GetMapping("user/{id}")
-	public UserDto getUserById(@PathVariable("id") @Min(1) Long id) {
+	public UserMmDto getUserById(@PathVariable("id") @Min(1) Long id) {
 		try {
 			Optional<User> optional = service.getUserById(id);
 			User user = optional.get();
-			UserDto dto = mapper.map(user, UserDto.class);
+			UserMmDto dto = mapper.map(user, UserMmDto.class);
 			return dto;
 		} catch (UserNotFoundException ex) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
